@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forest Data in the U.S.</title>
+  <style>
+  
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+   
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+   
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+  
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: #3498db;
+      transition: width 0.3s ease-out;
+    }
+
+   
+    #scrolly {
+      margin-top: 100px; 
+      padding: 0 20px;
+    }
+
+  
+    .step {
+      background: white;
+      margin: 0 auto 50px;
+      padding: 60px 20px;
+      max-width: 900px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      text-align: center;
+      opacity: 0.95;
+    }
+
+    .step:hover {
+      transform: translateY(-10px);
+      background-color: #f0f4f8;
+    }
+
+    .step h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.8rem;
+        padding: 15px 0;
+      }
+
+      .step {
+        padding: 50px 15px;
+      }
+
+      .step h2 {
+        font-size: 1.8rem;
+      }
+
+      iframe {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <header>
+    Forest Data in the U.S.
+  </header>
+
+  
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  
+  <section id="scrolly">
+
+    <div class="step" data-step="1">
+      <h2>Forest Coverage of U.S. from 1800-2020</h2>
+      <iframe id="barchart" class="file-content" src="" width="100%" height="600px" style="border:none;"></iframe>
+    </div>
+
+  
+    <div class="step" data-step="2">
+      <h2>US Forest Coverage by State</h2>
+      <iframe id="uschart" class="file-content" src="" width="100%" height="600px" style="border:none;"></iframe>
+    </div>
+  </section>
+
+
+  <script src="https://unpkg.com/scrollama"></script>
+  <script>
+
+    const scroller = scrollama();
+
+    
+    scroller
+      .setup({
+        step: '.step',
+        offset: 0.5,    
+        debug: false    
+      })
+      .onStepEnter((response) => {
+        const { element, index } = response;
+        const progressBar = document.getElementById('progress-bar');
+
+       
+        const totalSteps = document.querySelectorAll('.step').length;
+        const progress = ((index + 1) / totalSteps) * 100;
+        progressBar.style.width = `${progress}%`;
+
+      
+        element.style.backgroundColor = '#f0f4f8';
+
+       
+        if (index === 0) {
+          document.getElementById('barchart').src = 'https://jrussel8-blake.github.io/finalproject/barchart.html';
+        } else if (index === 1) {
+          document.getElementById('uschart').src = 'https://jrussel8-blake.github.io/finalproject/uschart.html';
+        }
+      })
+      .onStepExit((response) => {
+        const { element } = response;
+
+       
+        element.style.backgroundColor = 'white';
+      });
+  </script>
+
+</body>
+</html>
